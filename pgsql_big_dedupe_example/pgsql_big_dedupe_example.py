@@ -234,9 +234,11 @@ if __name__ == "__main__":
     print("creating inverted index")
 
     for field in deduper.fingerprinter.index_fields:
+        print("field: ", field)
         with read_con.cursor("field_values") as cur:
             cur.execute("SELECT DISTINCT %s FROM processed_donors" % field)
             field_data = (row[field] for row in cur)
+            print("field_data: ", field_data)
             deduper.fingerprinter.index(field_data, field)
 
     # Now we are ready to write our blocking map table by creating a
@@ -393,3 +395,6 @@ if __name__ == "__main__":
     write_con.close()
 
     print("ran in", time.time() - start_time, "seconds")
+
+if __name__ == "__main__":
+    pass
